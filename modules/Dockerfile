@@ -1,4 +1,4 @@
-FROM openjdk:17-slim-buster
+FROM openjdk:24-slim
 
 RUN apt-get -y update
 RUN apt-get -y upgrade

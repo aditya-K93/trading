@@ -1,10 +1,12 @@
 import Dependencies._
 import sbtwelcome._
 
-ThisBuild / scalaVersion     := "3.5.2"
+ThisBuild / scalaVersion     := "3.6.4"
 ThisBuild / version          := "0.1.0"
 ThisBuild / organization     := "dev.profunktor"
 ThisBuild / organizationName := "ProfunKtor"
+ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec.temurin("24"))
+ThisBuild / githubWorkflowPublishTargetBranches := Seq()
 
 ThisBuild / evictionErrorLevel := Level.Warn
 
@@ -42,6 +44,7 @@ usefulTasks := List(
 val commonSettings = List(
   scalafmtOnCompile := false, // recommended in Scala 3
   logo              := fedaLogo(scalaVersion.value, name.value),
+  scalacOptions ++= Seq("-source", "3.7"),
   testFrameworks += new TestFramework("weaver.framework.CatsEffect"),
   libraryDependencies ++= List(
     CompilerPlugins.zerowaste,

@@ -1,16 +1,14 @@
 package demo
 
-import java.util.UUID
-
-import trading.lib.Logger
-import trading.forecasts.store.*
-import trading.forecasts.store.{ DB, DoobieTx }
-
 import cats.effect.*
 import cats.effect.kernel.Resource.ExitCase
 import cats.syntax.all.*
 import doobie.*
 import doobie.implicits.*
+import trading.forecasts.store.*
+import trading.lib.Logger
+
+import java.util.UUID
 
 object DoobieTxDemo extends IOApp.Simple:
   given Meta[UUID] = Meta[String].imap[UUID](UUID.fromString)(_.toString)
