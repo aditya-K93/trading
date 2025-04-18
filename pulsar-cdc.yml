@@ -25,7 +25,7 @@ services:
 
   pulsar:
     restart: always
-    image: apachepulsar/pulsar:2.10.1
+    image: apachepulsar/pulsar:4.0.4
     ports:
       - 6650:6650
       - 8080:8080
@@ -35,7 +35,7 @@ services:
       - cdc
     volumes:
       - ./pulsarconf/standalone.conf:/pulsar/conf/standalone.conf
-      - ./pulsarconf/connectors/pulsar-io-debezium-postgres-2.10.1.nar:/pulsar/connectors/debezium-2.10.1.nar
+      - ./pulsarconf/connectors/pulsar-io-debezium-postgres-4.0.4.nar:/pulsar/connectors/debezium-4.0.4.nar
       - ./pulsarconf/debezium-postgres-config.yaml:/pulsar/conf/debezium-pg.yaml
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080/admin/v2/brokers/health"]
