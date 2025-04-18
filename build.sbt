@@ -1,11 +1,11 @@
 import Dependencies._
 import sbtwelcome._
 
-ThisBuild / scalaVersion     := "3.6.4"
-ThisBuild / version          := "0.1.0"
-ThisBuild / organization     := "dev.profunktor"
-ThisBuild / organizationName := "ProfunKtor"
-ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec.temurin("24"))
+ThisBuild / scalaVersion                        := "3.6.4"
+ThisBuild / version                             := "0.1.0"
+ThisBuild / organization                        := "dev.profunktor"
+ThisBuild / organizationName                    := "ProfunKtor"
+ThisBuild / githubWorkflowJavaVersions          := Seq(JavaSpec.temurin("24"))
 ThisBuild / githubWorkflowPublishTargetBranches := Seq()
 
 ThisBuild / evictionErrorLevel := Level.Warn
@@ -18,6 +18,10 @@ Compile / run / fork := true
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 Global / semanticdbEnabled    := true // for metals
+ThisBuild / javaOptions ++= Seq(
+  "-XX:+UnlockExperimentalVMOptions",
+  "-XX:+UseCompactObjectHeaders"
+)
 
 lazy val copyJsFileTask = TaskKey[Unit]("copyJsFileTask")
 
@@ -87,8 +91,9 @@ def dockerSettings(name: String) = List(
   Docker / packageName := s"trading-$name",
   dockerBaseImage      := "jdk17-curl:latest",
   dockerExposedPorts ++= List(8080),
-  makeBatScripts     := Nil,
-  dockerUpdateLatest := true
+  makeBatScripts                := Nil,
+  dockerUpdateLatest            := true,
+  dockerEnvVars += ("JAVA_OPTS" -> "-XX:+UnlockExperimentalVMOptions -XX:+UseCompactObjectHeaders")
 )
 
 lazy val root = (project in file("."))
