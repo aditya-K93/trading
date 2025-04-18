@@ -14,14 +14,15 @@ ThisBuild / resolvers := Resolver.sonatypeOssRepos("snapshots")
 
 ThisBuild / pushRemoteCacheTo := Some(MavenCache("local-cache", file("tmp/remote-cache")))
 
-Compile / run / fork := true
-
-Global / onChangedBuildSource := ReloadOnSourceChanges
-Global / semanticdbEnabled    := true // for metals
 ThisBuild / javaOptions ++= Seq(
   "-XX:+UnlockExperimentalVMOptions",
   "-XX:+UseCompactObjectHeaders"
 )
+
+Compile / run / fork := true
+
+Global / onChangedBuildSource := ReloadOnSourceChanges
+Global / semanticdbEnabled    := true // for metals
 
 lazy val copyJsFileTask = TaskKey[Unit]("copyJsFileTask")
 
