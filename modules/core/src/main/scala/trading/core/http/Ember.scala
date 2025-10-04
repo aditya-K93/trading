@@ -20,7 +20,7 @@ object Ember:
   private def showBanner[F[_]: Console](s: Server): F[Unit] =
     Console[F].println(s"\n${Banner.mkString("\n")}\nHTTP Server started at ${s.address}")
 
-  private def make[F[_]: Async: Network](port: Port) =
+  private def make[F[_]: {Async, Network}](port: Port) =
     given LoggerFactory[F] = NoOpFactory[F]
     EmberServerBuilder
       .default[F]
@@ -33,7 +33,7 @@ object Ember:
       ops <- Prometheus.metricsOps[F](prt.collectorRegistry)
     yield rts => Metrics[F](ops)(prt.routes <+> rts)
 
-  def websocket[F[_]: Async: Console: Network](
+  def websocket[F[_]: {Async, Console, Network}](
       port: Port,
       f: WebSocketBuilder[F] => HttpRoutes[F]
   ): Resource[F, Server] =
@@ -46,7 +46,7 @@ object Ember:
         .evalTap(showBanner[F])
     }
 
-  def routes[F[_]: Async: Console: Network](
+  def routes[F[_]: {Async, Console, Network}](
       port: Port,
       routes: HttpRoutes[F]
   ): Resource[F, Server] =
@@ -57,7 +57,7 @@ object Ember:
         .evalTap(showBanner[F])
     }
 
-  def default[F[_]: Async: Console: Network](
+  def default[F[_]: {Async, Console, Network}](
       port: Port
   ): Resource[F, Server] =
     metrics[F].flatMap { mid =>
